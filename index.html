@@ -8,6 +8,199 @@
     </head>
     <body>
         <div id="app">
+            <!-- Modal -->
+            <div
+                class="modal fade"
+                id="staticBackdrop"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1
+                                class="modal-title fs-5"
+                                id="staticBackdropLabel"
+                            >
+                                Add Product Form
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row g-3" id="addProductForm">
+                                <div class="col-md-12">
+                                    <label for="name" class="form-label"
+                                        >Name</label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="name"
+                                    />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="price" class="form-label"
+                                        >Price</label
+                                    >
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="price"
+                                    />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="image" class="form-label"
+                                        >Image</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="file"
+                                        id="image"
+                                    />
+                                </div>
+                                <div class="col-12">
+                                    <label for="description" class="form-label"
+                                        >Description</label
+                                    >
+                                    <textarea
+                                        class="form-control"
+                                        id="description"
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label
+                                        for="menuTypeSelect"
+                                        class="form-label"
+                                    >
+                                        Menu Type
+                                    </label>
+                                    <select
+                                        id="menuTypeSelect"
+                                        class="form-select"
+                                    >
+                                        <option value="FoodMenu">
+                                            Food Menu
+                                        </option>
+                                        <option value="DrinkMenu">
+                                            Drink Menu
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <div id="foodTypeGroup">
+                                        <p>Food Type</p>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input foodCategoryCheckbox"
+                                                type="checkbox"
+                                                value="Breakfast"
+                                                id="breakfastCheckbox"
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="breakfastCheckbox"
+                                            >
+                                                Breakfast
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input foodCategoryCheckbox"
+                                                type="checkbox"
+                                                value="Lunch"
+                                                id="lunchCheckbox"
+                                                checked
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="lunchCheckbox"
+                                            >
+                                                Lunch
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input foodCategoryCheckbox"
+                                                type="checkbox"
+                                                value="Dinner"
+                                                id="dinnerCheckbox"
+                                                checked
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="dinnerCheckbox"
+                                            >
+                                                Dinner
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div id="drinkTypeGroup">
+                                        <p>Drink Type</p>
+
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input drinkCategoryCheckbox"
+                                                type="checkbox"
+                                                value="SoftDrink"
+                                                id="softDrinkCheckbox"
+                                                checked
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="softDrinkCheckbox"
+                                            >
+                                                Soft Drink
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input drinkCategoryCheckbox"
+                                                type="checkbox"
+                                                value="Alcohol"
+                                                id="alcoholCheckbox"
+                                                checked
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="alcoholCheckbox"
+                                            >
+                                                Alcohol
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                id="submit-add-product-button"
+                                type="button"
+                                class="btn btn-primary"
+                            >
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <header id="header">
                 <nav class="navbar fixed-top navbar-expand-xxl text-bg-warning">
                     <div class="container">
@@ -23,7 +216,7 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
 
-                        <a class="navbar-brand" href="">
+                        <a class="navbar-brand" href="#">
                             <img
                                 class="logo"
                                 src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/10/logo_svg.svg"
@@ -88,6 +281,7 @@
                                     </ul>
                                 </li>
                             </ul>
+
                             <form class="d-flex" role="search">
                                 <input
                                     class="form-control me-2"
@@ -102,6 +296,15 @@
                                     Filter
                                 </button>
                             </form>
+
+                            <!-- Add Button -->
+                            <button
+                                class="btn btn-success text-white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop"
+                            >
+                                Add
+                            </button>
                         </div>
                     </div>
                 </nav>
@@ -109,8 +312,11 @@
             <section class="menu">
                 <div class="container">
                     <h3 class="h3">Our Menu</h3>
-                    <div class="row g-5">
-                        <div class="col-sm col-md-6 col-xxl-3">
+
+                    <div class="row g-5 menu-list">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/24-1-600x600.png"
@@ -127,7 +333,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/14-1-600x600.png"
@@ -144,7 +352,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/3-1-600x600.png"
@@ -161,7 +371,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/24-1-600x600.png"
@@ -178,7 +390,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/14-1-600x600.png"
@@ -195,7 +409,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/3-1-600x600.png"
@@ -212,7 +428,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/24-1-600x600.png"
@@ -229,7 +447,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/14-1-600x600.png"
@@ -246,7 +466,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm col-md-6 col-xxl-3">
+                        <div
+                            class="col-sm col-md-6 col-xxl-3 d-flex justify-content-center"
+                        >
                             <div class="card" style="width: 18rem">
                                 <img
                                     src="https://demo2.pavothemes.com/poco/wp-content/uploads/2020/08/3-1-600x600.png"
