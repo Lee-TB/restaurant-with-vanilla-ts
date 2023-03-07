@@ -1,4 +1,8 @@
+import { MenuAPI } from '../../api/MenuAPI';
 import { uploadImage } from '../../cloudinary/uploadImage';
+import { MenuType } from '../../models/enums/MenuType';
+import { MenuFactory } from '../../models/MenuFactory/MenuFactory';
+import { MenuItem, MenuItemProps } from '../../models/MenuItem/MenuItem';
 
 /**Query DOM */
 const addProductButton = document.querySelector(
@@ -60,12 +64,12 @@ function handleAddProduct() {
         document.querySelector('#description')
     )).value;
 
-    const menuTypeValue = (<HTMLSelectElement>(
-        document.querySelector('#menuTypeSelect')
-    )).value;
+    const menuTypeValue = <MenuType>(
+        (<HTMLSelectElement>document.querySelector('#menuTypeSelect')).value
+    );
 
     let categoryValueList: string[] = [];
-    if (menuTypeValue === 'FoodMenu') {
+    if (menuTypeValue === MenuType.FoodMenu) {
         const categoryInputList = <NodeListOf<HTMLInputElement>>(
             document.querySelectorAll('.foodCategoryCheckbox')
         );
@@ -74,7 +78,7 @@ function handleAddProduct() {
                 categoryValueList.push(input.value);
             }
         });
-    } else if (menuTypeValue === 'DrinkMenu') {
+    } else if (menuTypeValue === MenuType.DrinkMenu) {
         const categoryInputList = <NodeListOf<HTMLInputElement>>(
             document.querySelectorAll('.drinkCategoryCheckbox')
         );
@@ -84,14 +88,23 @@ function handleAddProduct() {
             }
         });
     }
-    const data = {
+
+    const values: MenuItemProps = {
+        id: '12345',
         name: nameValue,
-        price: priceValue,
+        price: Number(priceValue),
         description: descriptionValue,
         image: imageURL,
-        menuType: menuTypeValue,
         categories: categoryValueList,
     };
-    console.log(data);
+
+    let menuItem: MenuItem;
+    const menuFactory = new MenuFactory(menuTypeValue);
+    menuItem = menuFactory.createMenu(values);
+
+    console.log(menuItem);
+    // const menuAPI = new MenuAPI();
+    // const res = menuAPI.post(menuItem);
+    // console.log();
 }
 /**FORM Submit */

@@ -1,25 +1,28 @@
+export interface MenuItemProps {
+    id: string;
+    name: string;
+    description: string;
+    image: string;
+    price: number;
+    categories: string[];
+}
 export class MenuItem {
     private id: string;
     private name: string;
     private description: string;
     private image: string;
     private price: number;
+    private categories: string[];
     private createAt: Date;
 
-    constructor(
-        id: string,
-        name: string,
-        description: string,
-        image: string,
-        price: number,
-        createAt: Date
-    ) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.price = price;
-        this.createAt = createAt;
+    constructor(props: MenuItemProps) {
+        this.id = props.id;
+        this.name = props.name;
+        this.description = props.description;
+        this.image = props.image;
+        this.price = props.price;
+        this.categories = props.categories?.slice();
+        this.createAt = new Date();
     }
 
     getId(): string {
@@ -68,5 +71,13 @@ export class MenuItem {
 
     setCreateAt(createAt: Date) {
         this.createAt = createAt;
+    }
+
+    setCategories(categories: string[]): void {
+        this.categories = categories.slice();
+    }
+
+    getCategories(): string[] {
+        return this.categories;
     }
 }
