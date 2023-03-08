@@ -12,7 +12,7 @@ export class MenuAPI {
             body: JSON.stringify(data),
         });
         return new Promise((resolve) => {
-            resolve(res.json());
+            resolve(res);
         });
     }
 }

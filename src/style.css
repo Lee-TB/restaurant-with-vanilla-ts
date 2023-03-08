@@ -50,15 +50,16 @@ body {
 }
 
 /* LOADING */
-#submit-add-product-button .lds-ring {
-    display: none;
-}
-.lds-ring {
+#submitMenuItemButton.loading .lds-ring {
     display: inline-block;
+}
+
+.lds-ring {
+    display: none;
     position: relative;
     width: 20px;
-    height: 20px;
-  }
+    height: 20px; 
+}
   .lds-ring div {
     box-sizing: border-box;
     display: block;
