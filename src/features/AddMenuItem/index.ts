@@ -141,7 +141,7 @@ const handleSubmit = async (e: SubmitEvent) => {
             menuItem = menuFactory.createMenu(props);
 
             // call api to post menu menu item
-            const menuAPI = new MenuAPI();
+            const menuAPI = new MenuAPI('menu');
             const res = await menuAPI.post(menuItem);
 
             // notify message success

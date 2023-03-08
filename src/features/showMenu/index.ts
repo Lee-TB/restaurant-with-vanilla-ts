@@ -25,7 +25,7 @@ menuTabs.forEach((tab) => {
 export const renderMenu = async (type: MenuType) => {
     const menuTable = <HTMLTableElement>document.querySelector('#menuTable');
     try {
-        const menuAPI = new MenuAPI();
+        const menuAPI = new MenuAPI('menu');
         const res: any = await menuAPI.getAll();
         const data: any[] = await res.json();
         let dataAfterFilter: any[] = [];

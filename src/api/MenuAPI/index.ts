@@ -1,7 +1,10 @@
 export const MOCK_URL = `https://62c4071b7d83a75e39edba50.mockapi.io/`;
 
 export class MenuAPI {
-    private url = MOCK_URL + 'menu';
+    private url: string;
+    constructor(endpoint: string) {
+        this.url = MOCK_URL + endpoint;
+    }
 
     async post(data: any) {
         const res = await fetch(this.url, {
