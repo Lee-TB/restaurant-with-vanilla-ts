@@ -321,7 +321,7 @@
                                                     xlink:href="#speedometer2"
                                                 />
                                             </svg>
-                                            Menu Management
+                                            Menu
                                         </a>
                                     </li>
 
@@ -342,17 +342,37 @@
                         </aside>
                     </div>
 
-                    <div class="col-lg-9 col-xl-10">
+                    <div class="col-lg-9 col-xl-10 pt-2">
                         <!-- Menu -->
                         <section id="menu">
                             <h2>Menu Management</h2>
-                            <button
-                                class="btn btn-primary"
-                                id="openAddMenuItemModalButton"
-                            >
-                                <span>Add</span>
-                                <i class="bi bi-plus"></i>
-                            </button>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link menuTabs active"
+                                        href="#"
+                                        id="foodMenuTab"
+                                        >Food Menu</a
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link menuTabs"
+                                        href="#"
+                                        id="drinkMenuTab"
+                                        >Drink Menu</a
+                                    >
+                                </li>
+                            </ul>
+                            <div class="d-flex justify-content-end p-2">
+                                <button
+                                    class="btn btn-primary"
+                                    id="openAddMenuItemModalButton"
+                                >
+                                    <span>Add</span>
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </div>
                             <table class="table table-striped" id="menuTable">
                                 <thead>
                                     <tr>

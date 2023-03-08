@@ -1,2 +1,0 @@
-import './interactive';
-import './AddMenuItemFormSubmit';

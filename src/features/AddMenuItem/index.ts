@@ -1,32 +1,73 @@
 import uniqid from 'uniqid';
-import { uploadImage } from '../../../cloudinary/uploadImage';
-import { MenuItem, MenuItemProps } from '../../../models/MenuItem/MenuItem';
-import { MenuType } from '../../../models/enums/MenuType';
-import { MenuFactory } from '../../../models/MenuFactory/MenuFactory';
-import { MenuAPI } from '../../../api/MenuAPI';
 import { Modal, Toast } from 'bootstrap';
-import { updateMenu } from '../showMenu';
+import { uploadImage } from '../../cloudinary/uploadImage';
+import { MenuItem, MenuItemProps } from '../../models/MenuItem/MenuItem';
+import { MenuType } from '../../models/enums/MenuType';
+import { MenuFactory } from '../../models/MenuFactory/MenuFactory';
+import { MenuAPI } from '../../api/MenuAPI';
+import { renderMenu } from '../showMenu';
 
 /**Query DOM */
 const addMenuItemFormElement = <HTMLFormElement>(
     document.querySelector('#addMenuItemForm')
 );
+
 const addMenuItemModalElement = <HTMLDivElement>(
     document.querySelector('#addMenuItemModal')
 );
+
 const openAddMenuItemModalButtonElement = <HTMLButtonElement>(
     document.querySelector('#openAddMenuItemModalButton')
 );
+
 const imageInputElement = <HTMLInputElement>addMenuItemFormElement.image;
+
 const submitButtonElement = <HTMLButtonElement>(
     addMenuItemFormElement.submitButton
 );
+
 const liveToastSuccessElement = <HTMLDivElement>(
     document.getElementById('liveToastSuccess')
 );
+
 const liveToastFailElement = <HTMLDivElement>(
     document.getElementById('liveToastFail')
 );
+
+const menuTypeSelect = <HTMLSelectElement>(
+    document.querySelector('#menuTypeSelect')
+);
+const foodTypeGroup = <HTMLDivElement>document.querySelector('#foodTypeGroup');
+
+const drinkTypeGroup = <HTMLDivElement>(
+    document.querySelector('#drinkTypeGroup')
+);
+
+const foodTypeCheckboxList = <NodeListOf<HTMLInputElement>>(
+    foodTypeGroup.querySelectorAll('input')
+);
+
+const drinkTypeCheckboxList = <NodeListOf<HTMLInputElement>>(
+    drinkTypeGroup.querySelectorAll('input')
+);
+
+/**Change category list when change menu type */
+menuTypeSelect.addEventListener('change', () => {
+    foodTypeGroup.style.display = 'none';
+    drinkTypeGroup.style.display = 'none';
+    foodTypeCheckboxList.forEach((checkbox) => {
+        checkbox.checked = false;
+    });
+    drinkTypeCheckboxList.forEach((checkbox) => {
+        checkbox.checked = false;
+    });
+    if (menuTypeSelect.value === 'FoodMenu') {
+        foodTypeGroup.style.display = 'block';
+    }
+    if (menuTypeSelect.value === 'DrinkMenu') {
+        drinkTypeGroup.style.display = 'block';
+    }
+});
 
 /**Open modal */
 const addMenuItemModal = new Modal(addMenuItemModalElement);
@@ -106,20 +147,20 @@ const handleSubmit = async (e: SubmitEvent) => {
             // notify message success
             console.log(res);
             toastSuccess.show();
-            updateMenu();
+            renderMenu(menuTypeValue); // re-render menu
 
-            // RESET Form behavior
-            submitButtonElement.removeAttribute('disabled');
+            // reset Form
             submitButtonElement.classList.remove('loading');
-            form.reset();
-            form.classList.remove('was-validated');
+            submitButtonElement.removeAttribute('disabled');
+            form.reset(); // clear fields
+            form.classList.remove('was-validated'); // remove validation
             addMenuItemModal.hide();
         } catch (error) {
             // notify message error
             console.log(error);
             toastFail.show();
 
-            // RESET Form behavior
+            // reset Form
             submitButtonElement.classList.remove('loading');
             submitButtonElement.removeAttribute('disabled');
             form.reset(); // clear fields

@@ -4,5 +4,5 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './style.css';
 import './utils/bootstrapFormValidation';
 
-import './features/Menu/AddMenuItem';
-import './features/Menu/showMenu';
+import './features/AddMenuItem';
+import './features/showMenu';
