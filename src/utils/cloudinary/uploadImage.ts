@@ -3,8 +3,6 @@ export async function uploadImage(file: any) {
     const cloudName = 'leetb';
     const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
     const uploadPreset = 'Restaurant-vanilla-TS';
-    // const apiKey = 'your_api_key';
-    // const apiSecret = 'your_api_secret';
 
     // Tạo đối tượng FormData để chứa ảnh
     const formData = new FormData();

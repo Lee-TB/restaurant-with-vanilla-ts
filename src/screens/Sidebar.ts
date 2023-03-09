@@ -1,6 +1,6 @@
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { BillPage } from '../pages/BillPage/BillPage';
-import { BaseComponent } from './BaseComponent';
+import { BaseComponent } from '../components/BaseComponent';
 
 export class Sidebar extends BaseComponent {
     constructor(element: HTMLElement) {
@@ -84,10 +84,8 @@ export class Sidebar extends BaseComponent {
                 );
                 if (link.id === 'menuNavLink') {
                     new MenuPage(pagesElement).render();
-                    console.log('render menu page');
                 } else if (link.id === 'billNavLink') {
                     new BillPage(pagesElement).render();
-                    console.log('render bill page');
                 }
             });
         });

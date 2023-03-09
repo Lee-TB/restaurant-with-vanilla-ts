@@ -1,8 +1,8 @@
 import { BaseComponent } from '../../components/BaseComponent';
-import { MenuTable } from './components/MenuTable';
 import { MenuType } from '../../models/enums/MenuType';
-import { MenuTabs } from './components/MenuTabs';
-import { AddMenuItemModalButton } from './components/AddMenuItemModalButton';
+import { MenuTable } from './screens/MenuTable';
+import { MenuTabs } from './screens/MenuTabs';
+import { AddMenuItemModalButton } from './screens/AddMenuItemModalButton';
 
 export class MenuPage extends BaseComponent {
     constructor(element: HTMLElement) {

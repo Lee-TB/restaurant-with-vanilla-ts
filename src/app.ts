@@ -1,7 +1,7 @@
-import { Sidebar } from './components/Sidebar';
+import { Sidebar } from './screens/Sidebar';
 import { MenuPage } from './pages/MenuPage/MenuPage';
 import { BaseComponent } from './components/BaseComponent';
-import { AddMenuItemModal } from './components/AddMenuItemModal';
+import { AddMenuItemModal } from './screens/AddMenuItemModal';
 
 export class App extends BaseComponent {
     constructor(element: HTMLElement) {

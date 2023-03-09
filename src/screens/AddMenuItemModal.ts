@@ -1,6 +1,6 @@
 import { Modal } from 'bootstrap';
 import { AddMenuItemForm } from './AddMenuItemForm/AddMenuItemForm';
-import { BaseComponent } from './BaseComponent';
+import { BaseComponent } from '../components/BaseComponent';
 
 export class AddMenuItemModal extends BaseComponent {
     constructor(element: HTMLElement) {

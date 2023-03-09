@@ -2,17 +2,16 @@ import uniqid from 'uniqid';
 import { html } from './htmlElement';
 import { bootstrapFormValidation } from '../../utils/bootstrap/bootstrapFormValidation';
 import { uploadImage } from '../../utils/cloudinary/uploadImage';
-import { BaseComponent } from '../BaseComponent';
+import { BaseComponent } from '../../components/BaseComponent';
 import { MenuType } from '../../models/enums/MenuType';
 import { MenuItem, MenuItemProps } from '../../models/MenuItem/MenuItem';
 import { MenuFactory } from '../../models/MenuFactory/MenuFactory';
 import { MenuAPI } from '../../api/MenuAPI';
 import { Modal, Toast } from 'bootstrap';
-import { ToastComponent, ToastProps } from '../ToastComponent';
+import { ToastComponent, ToastProps } from '../../components/ToastComponent';
 
 export class AddMenuItemForm extends BaseComponent {
     private formElement?: HTMLFormElement;
-    private menuTableElement?: HTMLTableElement;
     private imageInputElement?: HTMLInputElement;
     private submitButtonElement?: HTMLButtonElement;
     private imageURLValue?: string;
@@ -54,12 +53,11 @@ export class AddMenuItemForm extends BaseComponent {
     private async handleSubmit(e: SubmitEvent) {
         e.preventDefault();
         const form: HTMLFormElement = <HTMLFormElement>e.target;
-        // const toastSuccess = new Toast(liveToastSuccessElement);
-        // const toastFail = new Toast(liveToastFailElement);
         if (form.checkValidity()) {
             try {
                 this.submitButtonLoading(true);
-                // get form values from UI
+
+                /* Form values from UI */
                 const idValue = uniqid();
                 const nameValue = (<HTMLInputElement>form.elements[0]).value;
                 const priceValue = (<HTMLInputElement>form.elements[1]).value;
@@ -93,7 +91,7 @@ export class AddMenuItemForm extends BaseComponent {
                 const menuFactory = new MenuFactory(menuTypeValue); // menuFatory create menu depend on menu type
                 menuItem = menuFactory.createMenu(props);
 
-                /* Call api to post menu menu item */
+                /* Call API to post menu menu item */
                 const menuAPI = new MenuAPI('menu');
                 const res: any = await menuAPI.post(menuItem);
 
@@ -105,8 +103,8 @@ export class AddMenuItemForm extends BaseComponent {
                         content: `Add ${menuItem.getName()} successful!`,
                     });
 
-                    /* Reset Form */
                     this.resetForm(form);
+
                     this.submitButtonLoading(false);
 
                     /* Close modal */
@@ -124,8 +122,8 @@ export class AddMenuItemForm extends BaseComponent {
                 });
                 console.log(error);
 
-                /* reset Form */
                 this.resetForm(form);
+
                 this.submitButtonLoading(false);
             }
         }
@@ -147,8 +145,8 @@ export class AddMenuItemForm extends BaseComponent {
 
     /**Reset form after submit successful */
     private resetForm(form: HTMLFormElement) {
-        form.reset(); // clear fields
-        form.classList.remove('was-validated'); // remove validation
+        form.reset();
+        form.classList.remove('was-validated'); // clear validation
     }
 
     /**Upload image to Cloudinary and return a string URL */
@@ -162,7 +160,7 @@ export class AddMenuItemForm extends BaseComponent {
             const res: any = await uploadImage(file);
             this.imageURLValue = res.secure_url;
 
-            this.submitButtonLoading(false); //end loading
+            this.submitButtonLoading(false);
         }
     }
 
