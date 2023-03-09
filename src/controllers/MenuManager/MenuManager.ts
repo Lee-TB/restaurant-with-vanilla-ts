@@ -1,7 +1,7 @@
 import uniqid from 'uniqid';
 import { Toast, Modal } from 'bootstrap';
 
-import { uploadImage } from '../../cloudinary/uploadImage';
+import { uploadImage } from '../../utils/cloudinary/uploadImage';
 import { IMenuManager } from './IMenuManager';
 import { MenuType } from '../../models/enums/MenuType';
 import { MenuItem, MenuItemProps } from '../../models/MenuItem/MenuItem';
@@ -69,9 +69,7 @@ export class MenuManager implements IMenuManager {
     private imageURLValue: string = '';
 
     /**add Menu Item */
-    public createMenuItem(): void {
-        this.renderMenu(MenuType.DrinkMenu);
-    }
+    public createMenuItem(): void {}
 
     /**update Menu Item */
     public updateMenuItem(id: number): void {}
