@@ -1,6 +1,5 @@
 import uniqid from 'uniqid';
 import { Toast, Modal } from 'bootstrap';
-
 import { uploadImage } from '../../utils/cloudinary/uploadImage';
 import { IMenuManager } from './IMenuManager';
 import { MenuType } from '../../models/enums/MenuType';

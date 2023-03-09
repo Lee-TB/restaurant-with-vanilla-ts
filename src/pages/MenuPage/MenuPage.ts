@@ -1,4 +1,3 @@
-import { Modal } from 'bootstrap';
 import { BaseComponent } from '../../components/BaseComponent';
 import { MenuTable } from './components/MenuTable';
 import { MenuType } from '../../models/enums/MenuType';
@@ -24,26 +23,26 @@ export class MenuPage extends BaseComponent {
 
         this.element.innerHTML = html;
 
-        /**Render Menu Tabs */
+        /* Render Menu Tabs */
         const menuTabsElement = <HTMLDivElement>(
             document.getElementById('menuTabsElement')
         );
         new MenuTabs(menuTabsElement).render();
 
-        /**Render Add Menu Item Modal Button */
+        /* Render Add Menu Item Modal Button */
         const openAddMenuItemModalButtonElement = <HTMLDivElement>(
             document.getElementById('openAddMenuItemModalButtonElement')
         );
         new AddMenuItemModalButton(openAddMenuItemModalButtonElement).render();
 
-        /**Render Menu Table */
+        /* Render Menu Table */
         const menuTableElement = <HTMLDivElement>(
             document.getElementById('menuTableElement')
         );
         const menuTable = new MenuTable(menuTableElement);
         menuTable.render();
 
-        /**Switch Menu Type */
+        /* Switch Menu Type */
         const menuTabElements = <NodeListOf<HTMLLinkElement>>(
             document.querySelectorAll('.menuTabs')
         );

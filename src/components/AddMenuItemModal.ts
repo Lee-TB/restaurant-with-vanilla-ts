@@ -1,7 +1,8 @@
-import { AddMenuItemForm } from './AddMenuItemForm';
+import { Modal } from 'bootstrap';
+import { AddMenuItemForm } from './AddMenuItemForm/AddMenuItemForm';
 import { BaseComponent } from './BaseComponent';
 
-export class Modal extends BaseComponent {
+export class AddMenuItemModal extends BaseComponent {
     constructor(element: HTMLElement) {
         super(element);
     }
@@ -41,6 +42,13 @@ export class Modal extends BaseComponent {
 
         this.element.innerHTML = html;
 
+        /* Instantiate Modal */
+        const addMenuItemModal = <HTMLDivElement>(
+            document.getElementById('addMenuItemModal')
+        );
+        Modal.getOrCreateInstance(addMenuItemModal);
+
+        /* Render Add Menu Item Form */
         const addMenuItemFormElement = <HTMLDivElement>(
             document.getElementById('addMenuItemFormElement')
         );

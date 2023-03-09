@@ -1,5 +1,5 @@
-import { BillPage } from '../pages/BillPage/BillPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
+import { BillPage } from '../pages/BillPage/BillPage';
 import { BaseComponent } from './BaseComponent';
 
 export class Sidebar extends BaseComponent {
@@ -80,12 +80,14 @@ export class Sidebar extends BaseComponent {
 
                 /**Render current page */
                 const pagesElement = <HTMLElement>(
-                    document.getElementById('pages')
+                    document.getElementById('pagesElement')
                 );
                 if (link.id === 'menuNavLink') {
                     new MenuPage(pagesElement).render();
+                    console.log('render menu page');
                 } else if (link.id === 'billNavLink') {
                     new BillPage(pagesElement).render();
+                    console.log('render bill page');
                 }
             });
         });

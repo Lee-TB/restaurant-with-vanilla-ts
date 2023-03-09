@@ -18,16 +18,19 @@ export class AddMenuItemModalButton extends BaseComponent {
 
         this.element.innerHTML = html;
 
-        /**open add modal */
-        const addMenuItemModalElement = <HTMLDivElement>(
-            document.querySelector('#addMenuItemModal')
+        this.openAddMenuItemModal();
+    }
+
+    /* Open Add Menu Item Modal */
+    private openAddMenuItemModal(): void {
+        const addMenuItemModal = <HTMLDivElement>(
+            document.querySelector('#addMenuItemModal') // this method only work correctly when mounted
         );
-        const addMenuItemModal = new Modal(addMenuItemModalElement);
         const openAddMenuItemModalButtonElement = <HTMLButtonElement>(
             document.getElementById('openAddMenuItemModalButton')
         );
         openAddMenuItemModalButtonElement.addEventListener('click', () => {
-            addMenuItemModal.show();
+            Modal.getInstance(addMenuItemModal)?.show();
         });
     }
 }

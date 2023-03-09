@@ -1,8 +1,7 @@
 import { Sidebar } from './components/Sidebar';
 import { MenuPage } from './pages/MenuPage/MenuPage';
-import { BillPage } from './pages/BillPage/BillPage';
 import { BaseComponent } from './components/BaseComponent';
-import { Modal } from './components/Modal';
+import { AddMenuItemModal } from './components/AddMenuItemModal';
 
 export class App extends BaseComponent {
     constructor(element: HTMLElement) {
@@ -11,17 +10,17 @@ export class App extends BaseComponent {
 
     render(): void {
         const html = /*html*/ `
-            <div id="toastSuccessComponent"></div>
-            <div id="formModal"></div>
+            <div id="toastPlaceholder"></div>
+            <div id="formModalElement"></div>
             <div class="wrapper">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-3 col-xl-2">
-                            <div id="sideBar"></div>
+                            <div id="sideBarElement"></div>
                         </div>
 
                         <div class="col-lg-9 col-xl-10 pt-2">
-                            <main id="pages">
+                            <main id="pagesElement">
                             </main>
                         </div>
                     </div>
@@ -31,16 +30,22 @@ export class App extends BaseComponent {
 
         this.element.innerHTML = html;
 
-        /**Mount child components */
+        /* Render Modal */
         const formModalElement = <HTMLElement>(
-            document.getElementById('formModal')
+            document.getElementById('formModalElement')
         );
-        new Modal(formModalElement).render();
+        new AddMenuItemModal(formModalElement).render();
 
-        const sideBarElement = <HTMLElement>document.getElementById('sideBar');
+        /* Render Sidebar */
+        const sideBarElement = <HTMLElement>(
+            document.getElementById('sideBarElement')
+        );
         new Sidebar(sideBarElement).render();
 
-        const pagesElement = <HTMLElement>document.getElementById('pages');
+        /* Render Menu Page */
+        const pagesElement = <HTMLElement>(
+            document.getElementById('pagesElement')
+        );
         new MenuPage(pagesElement).render();
     }
 }
