@@ -1,4 +1,4 @@
-import unique from 'uniqid';
+import uniqid from 'uniqid';
 import { BaseComponent } from './BaseComponent';
 
 export interface columnsProps {
@@ -19,7 +19,7 @@ export class TableComponent extends BaseComponent {
 
     constructor(element: HTMLElement, props: TableComponentProps) {
         super(element);
-        this.key = unique();
+        this.key = uniqid();
         this.columns = props.columns;
         this.dataSource = props.dataSource;
     }
