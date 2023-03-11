@@ -1,7 +1,6 @@
 import { Sidebar } from './screens/Sidebar';
 import { MenuPage } from './pages/MenuPage/MenuPage';
 import { BaseComponent } from './components/BaseComponent';
-import { AddMenuItemModal } from './screens/AddMenuItemModal';
 
 export class App extends BaseComponent {
     constructor(element: HTMLElement) {
@@ -11,16 +10,16 @@ export class App extends BaseComponent {
     render(): void {
         const html = /*html*/ `
             <div id="toastPlaceholder"></div>
-            <div id="formModalElement"></div>
+            <div id="modalPlaceholder"></div>
             <div class="wrapper">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-3 col-xl-2">
-                            <div id="sideBarElement"></div>
+                            <div id="sideBarPlaceholder"></div>
                         </div>
 
                         <div class="col-lg-9 col-xl-10 pt-2">
-                            <main id="pagesElement">
+                            <main id="pagesPlaceholder">
                             </main>
                         </div>
                     </div>
@@ -30,22 +29,24 @@ export class App extends BaseComponent {
 
         this.element.innerHTML = html;
 
-        /* Render Modal */
-        const formModalElement = <HTMLElement>(
-            document.getElementById('formModalElement')
-        );
-        new AddMenuItemModal(formModalElement).render();
+        this.renderSidebar();
 
-        /* Render Sidebar */
-        const sideBarElement = <HTMLElement>(
-            document.getElementById('sideBarElement')
-        );
-        new Sidebar(sideBarElement).render();
+        this.renderMenuPage();
+    }
 
-        /* Render Menu Page */
-        const pagesElement = <HTMLElement>(
-            document.getElementById('pagesElement')
+    /**Render Sidebar */
+    private renderSidebar() {
+        const sideBarPlaceholder = <HTMLElement>(
+            document.getElementById('sideBarPlaceholder')
         );
-        new MenuPage(pagesElement).render();
+        new Sidebar(sideBarPlaceholder).render();
+    }
+
+    /**Render Menu Page */
+    private renderMenuPage() {
+        const pagesPlaceholder = <HTMLElement>(
+            document.getElementById('pagesPlaceholder')
+        );
+        new MenuPage(pagesPlaceholder).render();
     }
 }
