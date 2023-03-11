@@ -8,7 +8,7 @@ export interface ModalProps {
 }
 
 export class ModalComponent extends BaseComponent {
-    private modalComponent?: HTMLElement;
+    private static modalElement?: HTMLElement;
     private title: string;
     private body: string;
     private footer?: string;
@@ -17,14 +17,14 @@ export class ModalComponent extends BaseComponent {
         super(element);
         this.title = props.title;
         this.body = props.body;
-        this.footer = props.footer;
+        this.footer = props.footer || '';
     }
 
     render(): void {
         const html = /*html */ `
             <div
                 class="modal fade"
-                id="modalComponent"
+                id="modalElement"
                 tabindex="-1"
                 aria-labelledby="ModalTitle"
                 aria-hidden="true"
@@ -55,16 +55,20 @@ export class ModalComponent extends BaseComponent {
         `;
 
         this.element.innerHTML = html;
+
+        ModalComponent.modalElement = <HTMLDivElement>(
+            document.getElementById('modalElement')
+        );
     }
 
     /**
-     * this method depend on Modal.getOrCreateInstance();
+     * This method depend on bootstrap.Modal.getOrCreateInstance()
      * @returns
      */
-    public getInstance(): Modal {
-        this.modalComponent = <HTMLDivElement>(
-            document.getElementById('modalComponent')
-        );
-        return Modal.getOrCreateInstance(this.modalComponent);
+    public static getInstance(): Modal {
+        if (ModalComponent.modalElement) {
+            return Modal.getOrCreateInstance(ModalComponent.modalElement);
+        }
+        throw new Error('Modal wasn’t rendered');
     }
 }
