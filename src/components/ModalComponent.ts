@@ -8,7 +8,7 @@ export interface ModalProps {
 }
 
 export class ModalComponent extends BaseComponent {
-    private static modalElement?: HTMLElement;
+    private static modalElement: HTMLElement;
     private title: string;
     private body: string;
     private footer?: string;

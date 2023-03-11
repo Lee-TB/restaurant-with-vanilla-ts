@@ -9,6 +9,7 @@ export interface ToastProps {
 }
 
 export class ToastComponent extends BaseComponent implements ToastProps {
+    private static toastElement: HTMLElement;
     public type?: 'success' | 'warning' | 'error' | 'default' = 'default';
     public title?: string;
     public content?: string;
@@ -26,7 +27,7 @@ export class ToastComponent extends BaseComponent implements ToastProps {
         const html = /*html*/ `
             <div class="toast-container position-fixed top-0 end-50 p-3" style="transform: translate(50%, 0);">
                 <div
-                    id="liveToast"
+                    id="toastElement"
                     class="toast"
                     role="alert"
                     aria-live="assertive"
@@ -53,9 +54,27 @@ export class ToastComponent extends BaseComponent implements ToastProps {
 
         this.element.innerHTML = html;
 
-        /* Instantiate Bootstrap Toast */
-        const liveToast = <HTMLElement>document.getElementById('liveToast');
-        Toast.getOrCreateInstance(liveToast);
+        ToastComponent.toastElement = <HTMLElement>(
+            document.getElementById('toastElement')
+        );
+    }
+
+    /**
+     * This method depend on bootstrap.Toast.getOrCreateInstance()
+     */
+    public static show(): void {
+        if (ToastComponent.toastElement) {
+            Toast.getOrCreateInstance(ToastComponent.toastElement).show();
+        }
+    }
+
+    /**
+     * This method depend on bootstrap.Toast.getOrCreateInstance()
+     */
+    public static hide(): void {
+        if (ToastComponent.toastElement) {
+            Toast.getOrCreateInstance(ToastComponent.toastElement).hide();
+        }
     }
 
     private styleTextColor(): string {
