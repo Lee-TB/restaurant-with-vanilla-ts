@@ -48,7 +48,11 @@ export class ModalComponent extends BaseComponent {
                         <div class="modal-body">                            
                             ${this.body}                            
                         </div>
-                        <div class="modal-footer">${this.footer}</div>
+                        ${
+                            this.footer
+                                ? `<div class="modal-footer">${this.footer}</div>`
+                                : ''
+                        }                        
                     </div>
                 </div>
             </div>
@@ -63,12 +67,28 @@ export class ModalComponent extends BaseComponent {
 
     /**
      * This method depend on bootstrap.Modal.getOrCreateInstance()
-     * @returns
      */
-    public static getInstance(): Modal {
+    public static show(): void {
         if (ModalComponent.modalElement) {
-            return Modal.getOrCreateInstance(ModalComponent.modalElement);
+            Modal.getOrCreateInstance(ModalComponent.modalElement).show();
         }
-        throw new Error('Modal wasn’t rendered');
+    }
+
+    /**
+     * This method depend on bootstrap.Modal.getOrCreateInstance()
+     */
+    public static hide(): void {
+        if (ModalComponent.modalElement) {
+            Modal.getOrCreateInstance(ModalComponent.modalElement).hide();
+        }
+    }
+
+    /**
+     * This method depend on bootstrap.Modal.getOrCreateInstance()
+     */
+    public static toggle(): void {
+        if (ModalComponent.modalElement) {
+            Modal.getOrCreateInstance(ModalComponent.modalElement).toggle();
+        }
     }
 }
