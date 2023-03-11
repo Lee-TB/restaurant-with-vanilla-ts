@@ -1,5 +1,6 @@
 import { MenuAPI } from '../../../api/MenuAPI';
 import { BaseComponent } from '../../../components/BaseComponent';
+import { alertMessage } from '../../../components/utils/alertMessage';
 import { MenuType } from '../../../models/enums/MenuType';
 
 export class MenuTable extends BaseComponent {
@@ -77,6 +78,41 @@ export class MenuTable extends BaseComponent {
             document.querySelector('#menuTable')
         );
         this.menuTableElement.tBodies[0].innerHTML = rows;
+
+        this.listenDeleteMenuItem();
+    }
+
+    /**Add event listener to delete menu item when click on delelte button */
+    private listenDeleteMenuItem() {
+        const deleteMenuItemButton = <NodeListOf<HTMLButtonElement>>(
+            document.querySelectorAll('.deleteMenuItemButton')
+        );
+        deleteMenuItemButton.forEach((deleteButton) => {
+            deleteButton.addEventListener('click', async () => {
+                const menuItemId = Number(deleteButton.dataset.menuItemId);
+                const menuAPI = new MenuAPI('menu');
+                const res: any = await menuAPI.get(menuItemId);
+                const data = await res.json();
+                menuAPI
+                    .delete(menuItemId)
+                    .then(() => {
+                        alertMessage({
+                            type: 'success',
+                            title: 'Delete successful!',
+                            content: `${data.name} was deleted`,
+                        });
+                        this.render();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        alertMessage({
+                            type: 'success',
+                            title: 'Delete failure!',
+                            content: `${data.name} was deleted`,
+                        });
+                    });
+            });
+        });
     }
 
     /**Get data from API and make sure it match with menu type */
