@@ -30,7 +30,12 @@ export class MenuTabs extends BaseComponent {
 
         this.element.innerHTML = html;
 
-        /**switch tabs css */
+        this.switchWhenClick();
+    }
+
+    /**Switch when click tabs */
+    /* switch tabs css */
+    private switchWhenClick() {
         const menuTabElements = <NodeListOf<HTMLLinkElement>>(
             document.querySelectorAll('.menuTabs')
         );
@@ -41,6 +46,25 @@ export class MenuTabs extends BaseComponent {
                 });
                 tab.classList.add('active');
             });
+        });
+    }
+
+    /**switch when menu type change */
+    /* switch tabs css */
+    public switchByMenuType(type: MenuType) {
+        const menuTabElements = <NodeListOf<HTMLLinkElement>>(
+            document.querySelectorAll('.menuTabs')
+        );
+        menuTabElements.forEach((tab) => {
+            tab.classList.remove('active');
+            if (tab.id === 'foodMenuTab' && type === MenuType.FoodMenu) {
+                tab.classList.add('active');
+            } else if (
+                tab.id === 'drinkMenuTab' &&
+                type === MenuType.DrinkMenu
+            ) {
+                tab.classList.add('active');
+            }
         });
     }
 }
