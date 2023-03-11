@@ -1,4 +1,5 @@
 import uniqid from 'uniqid';
+import { Modal } from 'bootstrap';
 import { html } from './htmlElement';
 import { bootstrapFormValidation } from '../../utils/bootstrap/bootstrapFormValidation';
 import { uploadImage } from '../../utils/cloudinary/uploadImage';
@@ -7,8 +8,9 @@ import { MenuType } from '../../models/enums/MenuType';
 import { MenuItem, MenuItemProps } from '../../models/MenuItem/MenuItem';
 import { MenuFactory } from '../../models/MenuFactory/MenuFactory';
 import { MenuAPI } from '../../api/MenuAPI';
-import { Modal, Toast } from 'bootstrap';
-import { ToastComponent, ToastProps } from '../../components/ToastComponent';
+import { alertMessage } from '../../components/utils/alertMessage';
+import { MenuTable } from '../../pages/MenuPage/screens/MenuTable';
+import { MenuTabs } from '../../pages/MenuPage/screens/MenuTabs';
 
 export class AddMenuItemForm extends BaseComponent {
     private formElement?: HTMLFormElement;
@@ -97,7 +99,7 @@ export class AddMenuItemForm extends BaseComponent {
 
                 if (res?.ok) {
                     /* Notify message success */
-                    this.alertMessage({
+                    alertMessage({
                         type: 'success',
                         title: `Add menu item successful!`,
                         content: `Add ${menuItem.getName()} successful!`,
@@ -112,10 +114,14 @@ export class AddMenuItemForm extends BaseComponent {
                         document.getElementById('addMenuItemModal')
                     );
                     Modal.getInstance(addMenuItemModal)?.hide();
+
+                    /* Re-render MenuTable and MenuTabs */
+                    this.renderMenuTable(menuTypeValue);
+                    this.renderMenuTabs(menuTypeValue);
                 }
             } catch (error) {
                 /* Notify message error */
-                this.alertMessage({
+                alertMessage({
                     type: 'error',
                     title: `Add menu item failure!`,
                     content: '',
@@ -129,18 +135,23 @@ export class AddMenuItemForm extends BaseComponent {
         }
     }
 
-    public alertMessage(props: ToastProps) {
-        const toastPlaceholder = <HTMLElement>(
-            document.getElementById('toastPlaceholder')
+    /**renderMenuTable */
+    private renderMenuTable(type: MenuType) {
+        const menuTableElement = <HTMLDivElement>(
+            document.getElementById('menuTableElement')
         );
-        new ToastComponent(toastPlaceholder, props).render();
+        const menuTable = new MenuTable(menuTableElement);
+        menuTable.setMenuType(type);
+        menuTable.render();
+    }
 
-        const liveToastElement = <HTMLDivElement>(
-            document.getElementById('liveToast')
+    private renderMenuTabs(type: MenuType) {
+        const menuTabsPlaceholder = <HTMLDivElement>(
+            document.getElementById('menuTabsPlaceholder')
         );
-
-        const toast = Toast.getInstance(liveToastElement);
-        toast?.show();
+        const menuTabs = new MenuTabs(menuTabsPlaceholder);
+        menuTabs.render();
+        menuTabs.switchByMenuType(type);
     }
 
     /**Reset form after submit successful */
