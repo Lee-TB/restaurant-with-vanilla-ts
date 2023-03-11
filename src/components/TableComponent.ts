@@ -13,12 +13,13 @@ export interface TableComponentProps {
 }
 
 export class TableComponent extends BaseComponent {
-    private key: string = unique();
+    private key: string;
     private columns: columnsProps[];
     private dataSource?: object[] = [];
 
     constructor(element: HTMLElement, props: TableComponentProps) {
         super(element);
+        this.key = unique();
         this.columns = props.columns;
         this.dataSource = props.dataSource;
     }
