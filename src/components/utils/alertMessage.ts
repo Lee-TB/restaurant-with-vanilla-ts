@@ -7,10 +7,10 @@ export function alertMessage(props: ToastProps) {
     );
     new ToastComponent(toastPlaceholder, props).render();
 
-    const liveToastElement = <HTMLDivElement>(
-        document.getElementById('liveToast')
+    const toastElement = <HTMLDivElement>(
+        document.getElementById('toastElement')
     );
 
-    const toast = Toast.getInstance(liveToastElement);
+    const toast = Toast.getOrCreateInstance(toastElement);
     toast?.show();
 }
