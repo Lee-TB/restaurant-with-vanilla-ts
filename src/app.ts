@@ -1,4 +1,4 @@
-import { Sidebar } from './screens/Sidebar';
+import { Sidebar } from './pages/screens/Sidebar';
 import { MenuPage } from './pages/MenuPage/MenuPage';
 import { BaseComponent } from './components/BaseComponent';
 
