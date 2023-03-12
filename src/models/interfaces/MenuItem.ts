@@ -4,7 +4,7 @@ export interface MenuItem {
     price: number;
     image: string;
     description: string;
-    menuType: string;
-    categories: string;
+    menuType: 'foodmenu' | 'drinkmenu';
+    categories: string[];
     createAt: Date;
 }
