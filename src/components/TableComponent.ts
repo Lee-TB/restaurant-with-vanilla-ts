@@ -53,24 +53,21 @@ export class TableComponent extends BaseComponent {
                 this.key
             ) as HTMLTableElement;
             tableElement.tBodies[0].innerHTML = this.dataSource
-                .map((obj: any | any[]) => {
+                .map((record: any) => {
                     return /*html*/ `
                         <tr>
                             ${this.columns
                                 .map((column) => {
-                                    if (Array.isArray(obj[column.dataIndex])) {
-                                        return obj[column.dataIndex]
-                                            .map(() => {
-                                                return /* html */ `
-                                                <td>${
-                                                    obj[column.dataIndex]
-                                                }</td>
-                                            `;
-                                            })
-                                            .join('');
-                                    }
                                     return /* html */ `
-                                        <td>${obj[column.dataIndex]}</td>
+                                        <td>${
+                                            Array.isArray(
+                                                record[column.dataIndex]
+                                            )
+                                                ? record[column.dataIndex].join(
+                                                      ''
+                                                  )
+                                                : record[column.dataIndex]
+                                        }</td>
                                     `;
                                 })
                                 .join('')}
