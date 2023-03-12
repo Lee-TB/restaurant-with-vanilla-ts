@@ -1,3 +1,5 @@
+import { MenuItem } from '../models/MenuItem/MenuItem';
+
 export const MOCK_URL = `https://62c4071b7d83a75e39edba50.mockapi.io/`;
 
 export class MenuAPI {
@@ -6,7 +8,7 @@ export class MenuAPI {
         this.url = MOCK_URL + endpoint + '/';
     }
 
-    async post(data: any) {
+    async post(data: MenuItem): Promise<Response> {
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await fetch(this.url, {
@@ -23,7 +25,7 @@ export class MenuAPI {
         });
     }
 
-    async getAll() {
+    async getAll(): Promise<Response> {
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await fetch(this.url, {
@@ -55,7 +57,7 @@ export class MenuAPI {
         });
     }
 
-    async update(id: number, data: any) {
+    async update(id: number, data: MenuItem) {
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await fetch(this.url + id, {
