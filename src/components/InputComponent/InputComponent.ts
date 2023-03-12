@@ -13,7 +13,7 @@ interface InputProps {
 }
 
 export class InputComponent extends BaseComponent {
-    private inputElement?: HTMLElement;
+    private inputElement?: HTMLInputElement;
     private id: string;
     private type: 'text' | 'number' | 'password';
     private label?: string;
@@ -59,9 +59,25 @@ export class InputComponent extends BaseComponent {
     }
 
     private listenChange() {
-        this.inputElement?.addEventListener('input', (e: any) => {
-            if (this.onChange) {
-                this.onChange(e.target.value);
+        this.inputElement?.addEventListener('input', () => {
+            if (
+                this.inputElement &&
+                Number(this.inputElement?.value) <
+                    Number(this.inputElement?.min)
+            ) {
+                this.inputElement.value = this.inputElement.min;
+            }
+
+            if (
+                this.inputElement &&
+                Number(this.inputElement?.value) >
+                    Number(this.inputElement?.max)
+            ) {
+                this.inputElement.value = this.inputElement.max;
+            }
+
+            if (this.onChange && this.inputElement) {
+                this.onChange(this.inputElement.value);
             }
         });
     }
