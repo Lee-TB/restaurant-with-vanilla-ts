@@ -1,85 +1,80 @@
+import { TableComponent } from '../../../components/TableComponent';
 import { MenuAPI } from '../../../api/MenuAPI';
 import { BaseComponent } from '../../../components/BaseComponent';
 import { alertMessage } from '../../../components/utils/alertMessage';
 import { MenuType } from '../../../models/enums/MenuType';
+import { formatCurrency } from '../../../utils/formatCurrentcy';
+import { MenuItem } from '../../../models/interfaces/MenuItem';
+import { formatRelativeTime } from '../../../utils/formatRelativeTime';
+
+interface MenuTableProps {
+    data: MenuItem[];
+}
 
 export class MenuTable extends BaseComponent {
-    private menuType: MenuType = MenuType.FoodMenu;
-    private menuTableElement?: HTMLTableElement;
+    private data?: MenuItem[];
 
-    constructor(element: HTMLElement) {
+    constructor(element: HTMLElement, props?: MenuTableProps) {
         super(element);
+        this.data = props?.data;
     }
 
     render(): void {
-        const html = /*html */ `
-            <table class="table table-striped" id="menuTable">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Create at</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        `;
+        const renderData = this.data?.map((item) => {
+            return {
+                ...item,
+                image: /* html */ `
+                    <img src="${item.image}" alt="${item.name}" style="width: 100px;">
+                `,
+                price: formatCurrency(item.price, 'VND'),
+                createAt: formatRelativeTime(new Date(item.createAt)),
+                actions: /* html */ `
+                    <button class='btn btn-warning'>
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class='btn btn-danger'>
+                        <i class="bi bi-trash"></i>
+                    </button>
+                `,
+            };
+        });
+        const tableComponent = new TableComponent(this.element, {
+            columns: [
+                {
+                    key: 'id',
+                    dataIndex: 'id',
+                    title: 'Id',
+                },
+                {
+                    key: 'image',
+                    dataIndex: 'image',
+                    title: 'Image',
+                },
+                {
+                    key: 'name',
+                    dataIndex: 'name',
+                    title: 'Name',
+                },
+                {
+                    key: 'price',
+                    dataIndex: 'price',
+                    title: 'Price',
+                },
+                {
+                    key: 'createAt',
+                    dataIndex: 'createAt',
+                    title: 'Date modified',
+                },
+                {
+                    key: 'actions',
+                    dataIndex: 'actions',
+                    title: 'Actions',
+                },
+            ],
+            dataSource: renderData,
+        });
 
-        this.element.innerHTML = html;
-
-        this.renderMenuItems();
-    }
-
-    public setMenuType(type: MenuType) {
-        this.menuType = type;
-    }
-
-    public getMenuType(): MenuType {
-        return this.menuType;
-    }
-
-    /**Render menu table rows which contain menu items*/
-    private async renderMenuItems(): Promise<void> {
-        const data: any[] = await this.getDataFromAPI(this.menuType);
-        const rows = data
-            .map((item: any) => {
-                return /*html*/ `
-            <tr>
-                <td>
-                    ${item.id}
-                </td>
-                <td>
-                    <img src="${item.image}" alt="" style="width: 100px">
-                </td>
-                <td>
-                ${item.name}
-                </td>
-                <td>${item.price}</td>
-                <td>${item.categories.join(', ')}</td>
-                <td>${new Date(item.createAt).toLocaleString()}</td>
-                <td>
-                    <button class="btn btn-warning updateMenuItemButton" data-menu-item-id="${
-                        item.id
-                    }"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-danger deleteMenuItemButton" data-menu-item-id="${
-                        item.id
-                    }"><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-            `;
-            })
-            .join('');
-
-        this.menuTableElement = <HTMLTableElement>(
-            document.querySelector('#menuTable')
-        );
-        this.menuTableElement.tBodies[0].innerHTML = rows;
-
-        this.listenDeleteMenuItem();
+        tableComponent.render();
     }
 
     /**Add event listener to delete menu item when click on delelte button */
