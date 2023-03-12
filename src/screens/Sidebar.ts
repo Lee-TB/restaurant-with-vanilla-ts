@@ -8,7 +8,7 @@ export class Sidebar extends BaseComponent {
     }
 
     render(): void {
-        const html = /*html */ `
+        this.element.innerHTML = /*html */ `
             <aside id="sidebar">
                 <div
                     class="d-flex flex-column flex-shrink-0 p-3 bg-light"
@@ -41,8 +41,9 @@ export class Sidebar extends BaseComponent {
                                     <use
                                         xlink:href="#speedometer2"
                                     />
-                                </svg>
-                                Menu
+                                </svg>                                
+                                <i class="bi bi-menu-button-fill"></i>
+                                <span>Menu</span>
                             </a>
                         </li>
 
@@ -55,7 +56,8 @@ export class Sidebar extends BaseComponent {
                                 >
                                     <use xlink:href="#table" />
                                 </svg>
-                                Bill List
+                                <i class="bi bi-receipt"></i>
+                                <span>Bill</span>
                             </a>
                         </li>
                     </ul>
@@ -63,9 +65,10 @@ export class Sidebar extends BaseComponent {
             </aside>
         `;
 
-        this.element.innerHTML = html;
+        this.switchPage();
+    }
 
-        // switch page
+    private switchPage() {
         const navLinkPageElements = <NodeListOf<HTMLElement>>(
             document.querySelectorAll('.navLinkPage')
         );
@@ -79,13 +82,13 @@ export class Sidebar extends BaseComponent {
                 link.classList.add('active');
 
                 /**Render current page */
-                const pagesElement = <HTMLElement>(
-                    document.getElementById('pagesElement')
+                const pagesPlaceholder = <HTMLElement>(
+                    document.getElementById('pagesPlaceholder')
                 );
                 if (link.id === 'menuNavLink') {
-                    new MenuPage(pagesElement).render();
+                    new MenuPage(pagesPlaceholder).render();
                 } else if (link.id === 'billNavLink') {
-                    new BillPage(pagesElement).render();
+                    new BillPage(pagesPlaceholder).render();
                 }
             });
         });
