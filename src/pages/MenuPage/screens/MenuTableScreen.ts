@@ -1,20 +1,17 @@
 import { TableComponent } from '../../../components/TableComponent';
-import { MenuAPI } from '../../../api/MenuAPI';
 import { BaseComponent } from '../../../components/BaseComponent';
-import { alertMessage } from '../../../components/utils/alertMessage';
-import { MenuType } from '../../../models/enums/MenuType';
 import { formatCurrency } from '../../../utils/formatCurrentcy';
 import { MenuItem } from '../../../models/interfaces/MenuItem';
 import { formatRelativeTime } from '../../../utils/formatRelativeTime';
 
-interface MenuTableProps {
+interface MenuTableScreenProps {
     data: MenuItem[];
 }
 
-export class MenuTable extends BaseComponent {
+export class MenuTableScreen extends BaseComponent {
     private data?: MenuItem[];
 
-    constructor(element: HTMLElement, props?: MenuTableProps) {
+    constructor(element: HTMLElement, props?: MenuTableScreenProps) {
         super(element);
         this.data = props?.data;
     }
@@ -29,10 +26,10 @@ export class MenuTable extends BaseComponent {
                 price: formatCurrency(item.price, 'VND'),
                 createAt: formatRelativeTime(new Date(item.createAt)),
                 actions: /* html */ `
-                    <button class='btn btn-warning'>
+                    <button class='btn btn-warning updateMenuItemButton' data-id="${item.id}" data-menu-type="${item.menuType}">
                         <i class="bi bi-pencil-square"></i>
                     </button>
-                    <button class='btn btn-danger'>
+                    <button class='btn btn-danger deleteMenuItemButton' data-id="${item.id}" data-menu-type="${item.menuType}">
                         <i class="bi bi-trash"></i>
                     </button>
                 `,
@@ -75,6 +72,8 @@ export class MenuTable extends BaseComponent {
         });
 
         tableComponent.render();
+
+        this.listenDeleteMenuItem();
     }
 
     /**Add event listener to delete menu item when click on delelte button */
@@ -84,55 +83,31 @@ export class MenuTable extends BaseComponent {
         );
         deleteMenuItemButton.forEach((deleteButton) => {
             deleteButton.addEventListener('click', async () => {
-                const menuItemId = Number(deleteButton.dataset.menuItemId);
-                const menuAPI = new MenuAPI('menu');
-                const res: any = await menuAPI.get(menuItemId);
-                const data = await res.json();
-                menuAPI
-                    .delete(menuItemId)
-                    .then(() => {
-                        alertMessage({
-                            type: 'success',
-                            title: 'Delete successful!',
-                            content: `${data.name} was deleted`,
-                        });
-                        this.render();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        alertMessage({
-                            type: 'success',
-                            title: 'Delete failure!',
-                            content: `${data.name} was deleted`,
-                        });
-                    });
+                const itemId = Number(deleteButton.dataset.id);
+                const itemMenuType = deleteButton.dataset.menuType;
+                console.log(itemId, itemMenuType);
+                // const menuAPI = new MenuAPI('f');
+                // const res: any = await menuAPI.get(menuItemId);
+                // const data = await res.json();
+                // menuAPI
+                //     .delete(menuItemId)
+                //     .then(() => {
+                //         alertMessage({
+                //             type: 'success',
+                //             title: 'Delete successful!',
+                //             content: `${data.name} was deleted`,
+                //         });
+                //         this.render();
+                //     })
+                //     .catch((error) => {
+                //         console.log(error);
+                //         alertMessage({
+                //             type: 'success',
+                //             title: 'Delete failure!',
+                //             content: `${data.name} was deleted`,
+                //         });
+                //     });
             });
         });
-    }
-
-    /**Get data from API and make sure it match with menu type */
-    private async getDataFromAPI(type: MenuType): Promise<any[]> {
-        try {
-            const menuAPI = new MenuAPI('menu');
-            const res: any = await menuAPI.getAll();
-            const data: any[] = await res.json();
-            let dataAfterFilter: any[] = [];
-            if (type === MenuType.FoodMenu) {
-                dataAfterFilter = data.filter(
-                    (item) => item.menuType === 'FoodMenu'
-                );
-            } else if (type === MenuType.DrinkMenu) {
-                dataAfterFilter = data.filter(
-                    (item) => item.menuType === 'DrinkMenu'
-                );
-            }
-            return new Promise((resolve) => {
-                resolve(dataAfterFilter);
-            });
-        } catch (error) {
-            return new Promise((_, reject) => {
-                reject(error);
-            });
-        }
     }
 }
