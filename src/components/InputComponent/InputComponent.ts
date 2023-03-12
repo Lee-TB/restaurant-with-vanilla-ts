@@ -104,7 +104,6 @@ export class InputComponent extends BaseComponent {
         }
 
         if (this.required) {
-            console.log(this.inputElement);
             this.inputElement?.setAttribute('required', 'true');
         }
     }
