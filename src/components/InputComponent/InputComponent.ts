@@ -10,6 +10,9 @@ interface InputProps {
     onChange?: (value: string) => void;
     min?: number;
     max?: number;
+    required?: boolean;
+    validFeedback?: string;
+    invalidFeedback?: string;
 }
 
 export class InputComponent extends BaseComponent {
@@ -22,6 +25,9 @@ export class InputComponent extends BaseComponent {
     private onChange?: (value: string) => void;
     private min?: number;
     private max?: number;
+    private required?: boolean;
+    private validFeedback?: string;
+    private invalidFeedback?: string;
 
     constructor(element: HTMLElement, props: InputProps) {
         super(element);
@@ -34,7 +40,11 @@ export class InputComponent extends BaseComponent {
         this.onChange = props.onChange;
         this.min = props.min;
         this.max = props.max;
+        this.required = props.required || false;
+        this.validFeedback = props.validFeedback;
+        this.invalidFeedback = props.invalidFeedback;
     }
+
     render(): void {
         if (this.label) {
             this.element.innerHTML = /* html */ `
@@ -42,18 +52,24 @@ export class InputComponent extends BaseComponent {
                     ${this.label}
                 </label>
                 <input type="${this.type}" id="${this.id}" class="form-control" min="${this.min}" max="${this.max}">
+                <div class="valid-feedback">
+                    ${this.validFeedback}
+                </div>
+                <div class="invalid-feedback">
+                    ${this.invalidFeedback}
+                </div>
             `;
         } else {
             this.element.innerHTML = /* html */ `
-                <input type="${this.type}" id="${this.id}" class="form-control" min="${this.min}" max="${this.max}">
+                <input type="${this.type}" id="${this.id}" class="form-control" min="${this.min}" max="${this.max}">                
             `;
         }
-
-        this.assignPropsToAttribute();
 
         this.inputElement = <HTMLInputElement>(
             document.getElementById(`${this.id}`)
         );
+
+        this.assignPropsToAttribute();
 
         this.listenChange();
     }
@@ -85,6 +101,11 @@ export class InputComponent extends BaseComponent {
     private assignPropsToAttribute() {
         if (this.placeholder) {
             this.inputElement?.setAttribute('placeholder', 'haha');
+        }
+
+        if (this.required) {
+            console.log(this.inputElement);
+            this.inputElement?.setAttribute('required', 'true');
         }
     }
 }
