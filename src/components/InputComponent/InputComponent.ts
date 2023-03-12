@@ -51,12 +51,14 @@ export class InputComponent extends BaseComponent {
                 <label for="${this.id}" class="form-label">
                     ${this.label}
                 </label>
-                <input type="${this.type}" id="${this.id}" class="form-control" min="${this.min}" max="${this.max}">
+                <input type="${this.type}" id="${
+                this.id
+            }" class="form-control" min="${this.min}" max="${this.max}">
                 <div class="valid-feedback">
-                    ${this.validFeedback}
+                    ${this.validFeedback || ''}
                 </div>
                 <div class="invalid-feedback">
-                    ${this.invalidFeedback}
+                    ${this.invalidFeedback || ''}
                 </div>
             `;
         } else {
@@ -100,7 +102,7 @@ export class InputComponent extends BaseComponent {
 
     private assignPropsToAttribute() {
         if (this.placeholder) {
-            this.inputElement?.setAttribute('placeholder', 'haha');
+            this.inputElement?.setAttribute('placeholder', 'haha'); // need to fix
         }
 
         if (this.required) {

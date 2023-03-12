@@ -50,10 +50,10 @@ export class UploadComponent extends BaseComponent {
                 id="${this.id}"
             />
             <div class="valid-feedback">
-                ${this.validFeedback}
+                ${this.validFeedback || ''}
             </div>
             <div class="invalid-feedback">
-                ${this.invalidFeedback}
+                ${this.invalidFeedback || ''}
             </div>
         `;
 
