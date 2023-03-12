@@ -13,6 +13,7 @@ interface InputProps {
     required?: boolean;
     validFeedback?: string;
     invalidFeedback?: string;
+    defaultValue?: string;
 }
 
 export class InputComponent extends BaseComponent {
@@ -28,6 +29,7 @@ export class InputComponent extends BaseComponent {
     private required?: boolean;
     private validFeedback?: string;
     private invalidFeedback?: string;
+    private defaultValue?: string;
 
     constructor(element: HTMLElement, props: InputProps) {
         super(element);
@@ -43,6 +45,7 @@ export class InputComponent extends BaseComponent {
         this.required = props.required || false;
         this.validFeedback = props.validFeedback;
         this.invalidFeedback = props.invalidFeedback;
+        this.defaultValue = props.defaultValue;
     }
 
     render(): void {
@@ -107,6 +110,10 @@ export class InputComponent extends BaseComponent {
 
         if (this.required) {
             this.inputElement?.setAttribute('required', 'true');
+        }
+
+        if (this.inputElement) {
+            this.inputElement.value = this.defaultValue || '';
         }
     }
 }
