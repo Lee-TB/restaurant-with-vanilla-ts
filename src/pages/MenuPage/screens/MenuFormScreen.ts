@@ -1,4 +1,3 @@
-import { Toast } from 'bootstrap';
 import { MenuAPI } from '../../../api/MenuAPI';
 import { BaseComponent } from '../../../components/BaseComponent';
 import { CheckboxGroupComponent } from '../../../components/CheckboxGroupComponent/CheckboxGroupComponent';
@@ -15,10 +14,12 @@ import { MenuPage } from '../MenuPage';
 
 export interface MenuFormScreenProps {
     type: 'add' | 'update';
+    defaultFormValues?: MenuItem;
 }
 
 export class MenuFormScreen extends BaseComponent {
     private type: 'add' | 'update';
+    private defaultFormValues?: MenuItem;
 
     private menuFormElement?: HTMLFormElement;
     private submitData: MenuItem;
@@ -27,6 +28,7 @@ export class MenuFormScreen extends BaseComponent {
         super(element);
 
         this.type = props.type;
+        this.defaultFormValues = props.defaultFormValues;
         this.submitData = {
             id: '',
             name: '',
@@ -37,6 +39,9 @@ export class MenuFormScreen extends BaseComponent {
             categories: [],
             createAt: new Date(),
         };
+        if (this.defaultFormValues) {
+            this.submitData = this.defaultFormValues;
+        }
     }
 
     render(): void {
@@ -134,36 +139,73 @@ export class MenuFormScreen extends BaseComponent {
         e.preventDefault();
         bootstrapFormValidation();
         if (this.menuFormElement?.checkValidity()) {
-            this.submitData.createAt = new Date();
-            console.log(this.submitData);
-            const menuAPI = new MenuAPI(this.submitData.menuType);
-            menuAPI
-                .post(this.submitData)
-                .then(() => {
-                    this.menuFormElement?.reset();
-                    ModalComponent.hide();
-                    alertMessage({
-                        type: 'success',
-                        title: 'Create menu successful!',
-                        content: `Menu ${this.submitData.name} was created`,
-                    });
-                    MenuPage.renderMenuTable(this.submitData.menuType);
-                    MenuPage.renderMenuTabs(this.submitData.menuType);
-                })
-                .catch((error) => {
-                    console.log('create menu failure', error);
-                    alertMessage({
-                        type: 'error',
-                        title: 'Create menu failure!',
-                    });
-                });
+            if (this.type === 'add') {
+                this.createMenu();
+            } else if (this.type === 'update') {
+                this.updateMenu();
+            }
         }
+    }
+
+    private createMenu() {
+        this.submitData.createAt = new Date();
+        const menuAPI = new MenuAPI(this.submitData.menuType);
+        menuAPI
+            .post(this.submitData)
+            .then(() => {
+                this.menuFormElement?.reset();
+                ModalComponent.hide();
+                alertMessage({
+                    type: 'success',
+                    title: 'Create menu successful!',
+                    content: `Menu ${this.submitData.name} was created`,
+                });
+
+                /* Rerender menu table and tabs */
+                MenuPage.renderMenuTable(this.submitData.menuType);
+                MenuPage.renderMenuTabs(this.submitData.menuType);
+            })
+            .catch((error) => {
+                console.log('Create menu failure:', error);
+                alertMessage({
+                    type: 'error',
+                    title: 'Create menu failure!',
+                });
+            });
+    }
+
+    private updateMenu() {
+        this.submitData.createAt = new Date();
+        const menuAPI = new MenuAPI(this.submitData.menuType);
+        menuAPI
+            .update(Number(this.defaultFormValues?.id), this.submitData)
+            .then(() => {
+                this.menuFormElement?.reset();
+                ModalComponent.hide();
+                alertMessage({
+                    type: 'success',
+                    title: 'Update menu successful!',
+                    content: `Menu ${this.submitData.name} was updated`,
+                });
+
+                /* Rerender menu table and tabs */
+                MenuPage.renderMenuTable(this.submitData.menuType);
+                MenuPage.renderMenuTabs(this.submitData.menuType);
+            })
+            .catch((error) => {
+                console.log('Update menu failure:', error);
+                alertMessage({
+                    type: 'error',
+                    title: 'Update menu failure!',
+                });
+            });
     }
 
     private renderNameInput() {
         const menuFormNamePlaceholder = <HTMLDivElement>(
             document.getElementById('menuFormNamePlaceholder')
         );
+
         new InputComponent(menuFormNamePlaceholder, {
             type: 'text',
             label: 'Name',
@@ -173,6 +215,7 @@ export class MenuFormScreen extends BaseComponent {
             onChange: (value) => {
                 this.submitData.name = value;
             },
+            defaultValue: this.defaultFormValues?.name,
         }).render();
     }
 
@@ -180,6 +223,7 @@ export class MenuFormScreen extends BaseComponent {
         const menuFormPricePlaceholder = <HTMLDivElement>(
             document.getElementById('menuFormPricePlaceholder')
         );
+
         new InputComponent(menuFormPricePlaceholder, {
             type: 'number',
             label: 'Price',
@@ -189,6 +233,7 @@ export class MenuFormScreen extends BaseComponent {
             onChange: (value) => {
                 this.submitData.price = Number(value);
             },
+            defaultValue: String(this.defaultFormValues?.price),
         }).render();
     }
 
@@ -196,6 +241,7 @@ export class MenuFormScreen extends BaseComponent {
         const menuFormImagePlaceholder = <HTMLDivElement>(
             document.getElementById('menuFormImagePlaceholder')
         );
+
         new UploadComponent(menuFormImagePlaceholder, {
             label: 'Upload Image',
             onChange: async (fileList) => {
@@ -209,12 +255,14 @@ export class MenuFormScreen extends BaseComponent {
         const menuFormDescriptionPlaceholder = <HTMLDivElement>(
             document.getElementById('menuFormDescriptionPlaceholder')
         );
+
         new InputComponent(menuFormDescriptionPlaceholder, {
             type: 'text',
             label: 'Description',
             onChange: (value) => {
                 this.submitData.description = value;
             },
+            defaultValue: this.defaultFormValues?.description,
         }).render();
     }
 
@@ -222,6 +270,7 @@ export class MenuFormScreen extends BaseComponent {
         const menuFormSelectPlaceholder = <HTMLElement>(
             document.getElementById('menuFormSelectPlaceholder')
         );
+
         new SelectComponent(menuFormSelectPlaceholder, {
             options: [
                 {
@@ -241,10 +290,11 @@ export class MenuFormScreen extends BaseComponent {
                 }
                 this.submitData.menuType = <'foodmenu' | 'drinkmenu'>value;
             },
+            defaultValue: this.defaultFormValues?.menuType,
         }).render();
     }
 
-    private renderCategories(categories: string[], defaultValues?: string[]) {
+    private renderCategories(categories: string[]) {
         const menuFormCategoriesPlaceholder = <HTMLElement>(
             document.getElementById('menuFormCategoriesPlaceholder')
         );
@@ -262,7 +312,7 @@ export class MenuFormScreen extends BaseComponent {
             onChange: (checkedValues: string[]) => {
                 this.submitData.categories = checkedValues;
             },
-            defaultValues: defaultValues || [],
+            defaultValues: this.defaultFormValues?.categories || [],
         }).render();
     }
 }
