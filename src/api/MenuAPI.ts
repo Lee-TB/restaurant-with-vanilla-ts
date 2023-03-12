@@ -1,16 +1,17 @@
-import { MenuType } from '../models/enums/MenuType';
 import { MenuItem } from '../models/MenuItem/MenuItem';
 
 export const MOCK_URL = `https://62c4071b7d83a75e39edba50.mockapi.io/`;
 
+export type MenuEndpoint = 'foodmenu' | 'drinkmenu';
+
 export class MenuAPI {
     private url: string;
 
-    constructor(endpoint: 'foodmenu' | 'drinkmenu') {
+    constructor(endpoint: MenuEndpoint) {
         this.url = MOCK_URL + endpoint + '/';
     }
 
-    public setEndpoint(endpoint: 'foodmenu' | 'drinkmenu'): void {
+    public setEndpoint(endpoint: MenuEndpoint): void {
         this.url = MOCK_URL + endpoint + '/';
     }
 
