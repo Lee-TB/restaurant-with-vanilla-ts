@@ -1,6 +1,6 @@
 import { MenuItem } from './MenuItem';
 
-export interface BillItem extends MenuItem {
+export interface BillMenuItem extends MenuItem {
     quantity: number;
     total: number;
 }
@@ -8,7 +8,7 @@ export interface BillItem extends MenuItem {
 export interface Bill {
     id: string;
     customer: string;
-    itemList: BillItem[];
+    itemList: BillMenuItem[];
     total: number;
     createAt: Date;
 }

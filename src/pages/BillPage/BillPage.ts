@@ -31,12 +31,12 @@ export class BillPage extends BaseComponent {
         );
         const billTabsComponent = new NavComponent(billTabsPlaceholder, {
             type: 'tab',
-            activeKey: 'CreateNew',
+            activeKey: 'CreateBill',
             items: [
                 {
-                    key: 'CreateNew',
+                    key: 'CreateBill',
                     label: /* html */ `
-                        <span>Create New </span>
+                        <span>Create Bill </span>
                         <i class="bi bi-plus-circle"></i>
                     `,
                 },
@@ -50,7 +50,7 @@ export class BillPage extends BaseComponent {
             ],
             /* Tabs change */
             onChange: (activeKey) => {
-                if (activeKey === 'CreateNew') {
+                if (activeKey === 'CreateBill') {
                     this.renderCreateBill();
                 } else if (activeKey === 'BillList') {
                     this.renderBillList();
