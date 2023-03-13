@@ -19,7 +19,7 @@ export class ToastComponent extends BaseComponent implements ToastProps {
         super(element);
         this.type = props.type;
         this.title = props.title;
-        this.content = props.content;
+        this.content = props.content || '';
         this.time = props.time || '';
     }
 
