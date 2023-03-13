@@ -1,6 +1,8 @@
+import { MenuAPI } from '../../api/MenuAPI';
 import { BaseComponent } from '../../components/BaseComponent';
 import { NavComponent } from '../../components/NavComponent';
-import { CreateBill } from './screens/CreateBill';
+import { CreateBillScreen } from './screens/CreateBillSreen';
+import { MenuItem } from '../../models/interfaces/MenuItem';
 
 export class BillPage extends BaseComponent {
     constructor(element: HTMLElement) {
@@ -57,13 +59,24 @@ export class BillPage extends BaseComponent {
         billTabsComponent.render();
     }
 
-    private renderCreateBill() {
+    private async renderCreateBill() {
+        const menuAPI = new MenuAPI('foodmenu');
+        const res = await menuAPI.getAll();
+        const data: MenuItem[] = await res.json();
         const billBodyPlaceholder = <HTMLDivElement>(
             document.getElementById('billBodyPlaceholder')
         );
 
-        new CreateBill(billBodyPlaceholder).render();
+        new CreateBillScreen(billBodyPlaceholder, {
+            menuItemList: data,
+        }).render();
     }
 
-    private renderBillList() {}
+    private renderBillList() {
+        const billBodyPlaceholder = <HTMLDivElement>(
+            document.getElementById('billBodyPlaceholder')
+        );
+
+        billBodyPlaceholder.innerHTML = 'bill list';
+    }
 }

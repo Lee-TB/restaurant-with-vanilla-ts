@@ -1,7 +1,8 @@
 import { MenuItem } from './MenuItem';
 
-interface BillItem extends MenuItem {
+export interface BillItem extends MenuItem {
     quantity: number;
+    total: number;
 }
 
 export interface Bill {
