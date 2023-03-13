@@ -46,10 +46,10 @@ export class BillAPI {
         });
     }
 
-    async get(id: number) {
+    async get(id: number): Promise<Bill> {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await fetch(this.url + id, {
+                const res: any = await fetch(this.url + id, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
