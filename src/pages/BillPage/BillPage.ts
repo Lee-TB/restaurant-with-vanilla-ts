@@ -3,6 +3,7 @@ import { BaseComponent } from '../../components/BaseComponent';
 import { NavComponent } from '../../components/NavComponent';
 import { CreateBillScreen } from './screens/CreateBillSreen';
 import { MenuItem } from '../../models/interfaces/MenuItem';
+import { BillListScreen } from './screens/BillListScreen';
 
 export class BillPage extends BaseComponent {
     constructor(element: HTMLElement) {
@@ -12,7 +13,7 @@ export class BillPage extends BaseComponent {
         const html = /*html */ `
             <section id="bill">
                 <h2>Bill Management</h2>
-                <div id="billTabsPlaceholder" class="mb-5"></div>
+                <div id="billTabsPlaceholder" class="mb-3"></div>
                 <div id="billBodyPlaceholder"></div>
             </section>
         `;
@@ -77,6 +78,6 @@ export class BillPage extends BaseComponent {
             document.getElementById('billBodyPlaceholder')
         );
 
-        billBodyPlaceholder.innerHTML = 'bill list';
+        new BillListScreen(billBodyPlaceholder).render();
     }
 }
