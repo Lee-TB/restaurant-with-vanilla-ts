@@ -31,12 +31,12 @@ export class MenuTableScreen extends BaseComponent {
                 price: formatCurrency(item.price, 'VND'),
                 createAt: formatRelativeTime(new Date(item.createAt)),
                 actions: /* html */ `
-                    <button class='btn btn-warning updateMenuItemButton' data-item='${JSON.stringify(
+                    <button class='btn btn-warning btn-sm updateMenuItemButton' data-item='${JSON.stringify(
                         item
                     )}'>
                         <i class="bi bi-pencil-square"></i>
                     </button>
-                    <button class='btn btn-danger deleteMenuItemButton' data-item='${JSON.stringify(
+                    <button class='btn btn-danger btn-sm deleteMenuItemButton' data-item='${JSON.stringify(
                         item
                     )}'>
                         <i class="bi bi-trash"></i>
