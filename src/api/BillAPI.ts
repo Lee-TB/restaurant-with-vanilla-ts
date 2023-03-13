@@ -1,4 +1,4 @@
-import { MenuItem } from '../models/interfaces/MenuItem';
+import { Bill } from '../models/interfaces/Bill';
 
 export const MOCK_URL = `https://640e93b94ed25579dc371e90.mockapi.io/`;
 
@@ -13,7 +13,7 @@ export class BillAPI {
         this.url = MOCK_URL + endpoint + '/';
     }
 
-    async post(data: MenuItem): Promise<Response> {
+    async post(data: Bill): Promise<Response> {
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await fetch(this.url, {
@@ -62,7 +62,7 @@ export class BillAPI {
         });
     }
 
-    async update(id: number, data: MenuItem) {
+    async update(id: number, data: Bill) {
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await fetch(this.url + id, {
