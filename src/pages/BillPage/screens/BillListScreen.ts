@@ -4,6 +4,8 @@ import { ButtonComponent } from '../../../components/ButtonComponent';
 import { TableComponent } from '../../../components/TableComponent';
 import { alertMessage } from '../../../components/utils/alertMessage';
 import { Bill } from '../../../models/interfaces/Bill';
+import { formatCurrency } from '../../../utils/formatCurrentcy';
+import { formatRelativeTime } from '../../../utils/formatRelativeTime';
 
 export class BillListScreen extends BaseComponent {
     private billListData?: Bill[];
@@ -33,8 +35,8 @@ export class BillListScreen extends BaseComponent {
             return {
                 id: bill.id,
                 customer: bill.customer,
-                total: bill.total,
-                createAt: bill.createAt,
+                total: formatCurrency(bill.total, 'VND'),
+                createAt: formatRelativeTime(new Date(bill.createAt)),
                 actions: /* html */ `
                     <div class="d-flex gap-1">
                         <div class="detailBillPlaceholder" data-id='${bill.id}'></div>
