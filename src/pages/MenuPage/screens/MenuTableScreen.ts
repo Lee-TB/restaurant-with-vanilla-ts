@@ -25,6 +25,7 @@ export class MenuTableScreen extends BaseComponent {
         const renderData = this.data?.map((item) => {
             return {
                 ...item,
+                categories: item.categories.join(', '),
                 image: /* html */ `
                     <img src="${item.image}" alt="${item.name}" style="width: 60px;">
                 `,
