@@ -3,14 +3,17 @@ import { BaseComponent } from '../../../components/BaseComponent';
 import { ButtonComponent } from '../../../components/ButtonComponent';
 import { InputComponent } from '../../../components/InputComponent/InputComponent';
 import { MenuItem } from '../../../models/interfaces/MenuItem';
-import { BillItem } from '../../../models/interfaces/Bill';
+import { Bill, BillItem } from '../../../models/interfaces/Bill';
 import { formatCurrency } from '../../../utils/formatCurrentcy';
+import { BillAPI } from '../../../api/BillAPI';
+import { alertMessage } from '../../../components/utils/alertMessage';
 
 interface CreateBillProps {
     menuItemList: MenuItem[];
 }
 
 export class CreateBillScreen extends BaseComponent {
+    private billTotal: number = 0;
     /* ALL menu item */
     private menuItemList: MenuItem[];
     /* list to add to bill */
@@ -135,6 +138,14 @@ export class CreateBillScreen extends BaseComponent {
                             });
                         }
                     }
+
+                    this.billTotal = this.listItemToAdd.reduce(
+                        (prev: any, currentItem: BillItem) => {
+                            return prev + currentItem.total;
+                        },
+                        0
+                    );
+
                     this.renderBillToAdd();
                 },
             }).render();
@@ -172,12 +183,7 @@ export class CreateBillScreen extends BaseComponent {
                         .join('')}
                 </ul>
                 <p><strong>Total: </strong><span>${formatCurrency(
-                    this.listItemToAdd.reduce(
-                        (prev: any, currentItem: BillItem) => {
-                            return prev + currentItem.total;
-                        },
-                        0
-                    ),
+                    this.billTotal,
                     'VND'
                 )}</span></p>
                 <div id="AddBillButtonPlaceholder" class="mt-3"></div>
@@ -194,6 +200,33 @@ export class CreateBillScreen extends BaseComponent {
         new ButtonComponent(AddBillButtonPlaceholder, {
             children: `Add Bill`,
             className: 'btn btn-primary',
+            onClick: () => {
+                console.log(this.listItemToAdd);
+                const bill: Bill = {
+                    customer: 'Duc',
+                    createAt: new Date(),
+                    id: '',
+                    itemList: this.listItemToAdd,
+                    total: this.billTotal,
+                };
+
+                const billAPI = new BillAPI('bill');
+                billAPI
+                    .post(bill)
+                    .then(() => {
+                        alertMessage({
+                            type: 'success',
+                            title: 'Add bill successful!',
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('Add bill error: ', error);
+                        alertMessage({
+                            type: 'error',
+                            title: 'Add bill Failure!',
+                        });
+                    });
+            },
         }).render();
     }
 }
