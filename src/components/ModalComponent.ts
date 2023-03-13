@@ -5,6 +5,7 @@ export interface ModalProps {
     setBody?: (element: HTMLElement) => void;
     setTitle?: (element: HTMLElement) => void;
     setFooter?: (element: HTMLElement) => void;
+    size?: 'sm' | 'lg' | 'xl';
 }
 
 export class ModalComponent extends BaseComponent {
@@ -15,6 +16,7 @@ export class ModalComponent extends BaseComponent {
     private setBody?: (element: HTMLElement) => void;
     private setTitle?: (element: HTMLElement) => void;
     private setFooter?: (element: HTMLElement) => void;
+    private size?: 'sm' | 'lg' | 'xl';
 
     constructor(element: HTMLElement, props: ModalProps) {
         super(element);
@@ -22,16 +24,26 @@ export class ModalComponent extends BaseComponent {
         this.setTitle = props.setTitle;
         this.setBody = props.setBody;
         this.setFooter = props.setFooter;
+
+        this.size = props.size;
     }
 
     render(): void {
         const html = /*html */ `
             <div
-                class="modal fade"
+                class="modal fade ${
+                    this.size === 'xl'
+                        ? 'modal-xl'
+                        : this.size === 'lg'
+                        ? 'modal-lg'
+                        : this.size === 'sm'
+                        ? 'modal-sm'
+                        : ''
+                }"
                 id="modalElement"
                 tabindex="-1"
                 aria-labelledby="ModalTitle"
-                aria-hidden="true"
+                aria-hidden="true"                
             >
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
