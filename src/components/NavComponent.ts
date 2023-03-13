@@ -7,7 +7,7 @@ export interface NavItemProps {
 }
 
 export interface NavComponentProps {
-    type?: 'tab';
+    type?: 'tab' | 'pill';
     items: NavItemProps[];
     activeKey?: string;
     onChange?: (activeKey: string) => void;
@@ -16,7 +16,7 @@ export interface NavComponentProps {
 export class NavComponent extends BaseComponent {
     private key: string;
     private items: NavItemProps[];
-    private type?: 'tab';
+    private type?: 'tab' | 'pill';
     private activeKey?: string;
     private onChange?: (activeKey: string) => void;
 
@@ -31,9 +31,13 @@ export class NavComponent extends BaseComponent {
 
     render(): void {
         this.element.innerHTML = /*html*/ `
-            <ul class="nav${this.type === 'tab' ? ' nav-tabs' : ''}" id="${
-            this.key
-        }">
+            <ul class="nav${
+                this.type === 'tab'
+                    ? ' nav-tabs'
+                    : this.type === 'pill'
+                    ? ' nav-pills'
+                    : ''
+            }" id="${this.key}">
             </ul>
         `;
 
