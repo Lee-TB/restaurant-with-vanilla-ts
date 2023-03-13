@@ -308,7 +308,7 @@ export class MenuFormScreen extends BaseComponent {
 
         new CheckboxGroupComponent(menuFormCategoriesPlaceholder, {
             options: options,
-            className: 'd-flex gap-3',
+            className: 'd-flex gap-3 flex-wrap',
             onChange: (checkedValues: string[]) => {
                 this.submitData.categories = checkedValues;
             },
