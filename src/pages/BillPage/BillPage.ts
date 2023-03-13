@@ -20,18 +20,18 @@ export class BillPage extends BaseComponent {
 
         this.element.innerHTML = html;
 
-        this.renderBillTabs();
+        BillPage.renderBillTabs('CreateBill');
 
-        this.renderCreateBill();
+        BillPage.renderCreateBill();
     }
 
-    private renderBillTabs() {
+    public static renderBillTabs(activeKey: 'CreateBill' | 'BillList') {
         const billTabsPlaceholder = <HTMLDivElement>(
             document.getElementById('billTabsPlaceholder')
         );
         const billTabsComponent = new NavComponent(billTabsPlaceholder, {
             type: 'tab',
-            activeKey: 'CreateBill',
+            activeKey: activeKey,
             items: [
                 {
                     key: 'CreateBill',
@@ -51,16 +51,16 @@ export class BillPage extends BaseComponent {
             /* Tabs change */
             onChange: (activeKey) => {
                 if (activeKey === 'CreateBill') {
-                    this.renderCreateBill();
+                    BillPage.renderCreateBill();
                 } else if (activeKey === 'BillList') {
-                    this.renderBillList();
+                    BillPage.renderBillList();
                 }
             },
         });
         billTabsComponent.render();
     }
 
-    private async renderCreateBill() {
+    public static async renderCreateBill() {
         const menuAPI = new MenuAPI('foodmenu');
         const res = await menuAPI.getAll();
         const data: MenuItem[] = await res.json();
@@ -73,7 +73,7 @@ export class BillPage extends BaseComponent {
         }).render();
     }
 
-    private renderBillList() {
+    public static renderBillList() {
         const billBodyPlaceholder = <HTMLDivElement>(
             document.getElementById('billBodyPlaceholder')
         );
